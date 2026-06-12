@@ -1,0 +1,9 @@
+{
+    "name": "gemnah/backend",
+    "description": "Backend module for GEMNAH.",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Backend\\": "app/"
+        }
+    }
+}
