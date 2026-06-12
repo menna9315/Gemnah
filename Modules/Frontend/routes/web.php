@@ -18,6 +18,7 @@ Route::post('/cart/items/{item}', [CartController::class, 'store'])->name('front
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('frontend.checkout');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('frontend.checkout.store');
 Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('frontend.checkout.success');
+Route::get('/products', [HomeController::class, 'products'])->name('frontend.products.index');
 Route::get('/products/{category:slug}/{item:slug}', [HomeController::class, 'productItemDetails'])
     ->withoutScopedBindings()
     ->name('frontend.products.item');

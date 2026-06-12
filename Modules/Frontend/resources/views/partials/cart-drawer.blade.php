@@ -2,9 +2,7 @@
     $cartItems = $frontendCartItems ?? collect();
     $cartCount = $frontendCartCount ?? 0;
     $cartSubtotal = $frontendCartSubtotal ?? 0;
-    $continueShoppingUrl = $firstMenuCategory
-        ? route('frontend.products.category', $firstMenuCategory->slug)
-        : route('frontend.home');
+    $continueShoppingUrl = route('frontend.products.index');
 @endphp
 
 <!-- cart-drawer start -->

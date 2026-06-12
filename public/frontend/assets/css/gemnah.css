@@ -286,6 +286,118 @@ body {
     color: var(--gemnah-pewter) !important;
 }
 
+.gemnah-home-hero {
+    overflow: hidden;
+    background: var(--gemnah-ink);
+    border-bottom: 1px solid var(--gemnah-linen);
+}
+
+.gemnah-home-hero .home-slider {
+    position: relative;
+}
+
+.gemnah-home-hero-slide {
+    position: relative;
+    min-height: clamp(500px, 58vw, 720px);
+    overflow: hidden;
+}
+
+.gemnah-home-hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.gemnah-home-hero-overlay {
+    position: relative;
+    min-height: inherit;
+    display: flex;
+    align-items: center;
+    padding: clamp(58px, 8vw, 110px) 0;
+    background: linear-gradient(90deg, rgba(9, 10, 11, .72), rgba(9, 10, 11, .34) 48%, rgba(9, 10, 11, .12));
+    z-index: 1;
+}
+
+.gemnah-home-hero-copy {
+    max-width: 580px;
+    padding: 0 0 0 clamp(0px, 2vw, 28px);
+}
+
+.gemnah-home-kicker {
+    margin-bottom: 12px;
+    color: #eef2ef;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, .38);
+}
+
+.gemnah-home-hero-copy h1 {
+    margin: 0;
+    max-width: 720px;
+    color: #fff;
+    font-size: clamp(34px, 5.6vw, 76px);
+    line-height: 1.05;
+    text-shadow: 0 3px 20px rgba(0, 0, 0, .38);
+}
+
+.gemnah-home-hero-copy p {
+    max-width: 520px;
+    margin: 18px 0 0;
+    color: #f1f4f2;
+    font-size: clamp(15px, 1.6vw, 19px);
+    line-height: 1.8;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, .4);
+}
+
+.gemnah-home-hero-btn {
+    margin-top: clamp(22px, 3vw, 34px);
+    color: var(--gemnah-ink) !important;
+    background: #fff !important;
+    border-color: #fff !important;
+}
+
+.gemnah-home-hero-btn:hover {
+    color: #fff !important;
+    background: var(--gemnah-pewter) !important;
+    border-color: var(--gemnah-pewter) !important;
+}
+
+.gemnah-home-hero-dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 24px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.gemnah-home-hero-dots .swiper-pagination {
+    position: static;
+    width: auto;
+}
+
+.gemnah-home-products {
+    background: #fff;
+}
+
+.gemnah-home-products-alt {
+    background:
+        linear-gradient(180deg, #f6fbf7 0%, #edf6f0 100%);
+    border-top: 1px solid rgba(100, 112, 107, .12);
+    border-bottom: 1px solid rgba(100, 112, 107, .12);
+}
+
+.gemnah-section-heading {
+    max-width: 760px;
+    margin: 0 auto 34px;
+}
+
 .gemnah-about-template-banner {
     position: relative;
     overflow: hidden;
@@ -1428,11 +1540,13 @@ body {
 .gemnah-products-kicker {
     display: inline-block;
     margin-bottom: 10px;
+    max-width: 100%;
     color: var(--gemnah-pewter-dark);
     font-size: 13px;
     font-weight: 700;
     letter-spacing: .18em;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
 }
 
 .gemnah-products-heading h1 {
@@ -1454,17 +1568,58 @@ body {
     align-items: stretch;
 }
 
+.gemnah-all-products-list {
+    display: grid;
+    gap: clamp(34px, 5vw, 62px);
+    min-width: 0;
+}
+
+.gemnah-products-category-section {
+    padding: clamp(24px, 4vw, 42px);
+    min-width: 0;
+    overflow: hidden;
+    background: rgba(255, 255, 255, .78);
+    border: 1px solid var(--gemnah-linen);
+    border-radius: 8px;
+    box-shadow: 0 14px 34px rgba(17, 19, 20, .055);
+}
+
+.gemnah-products-category-header {
+    margin-bottom: 24px;
+    min-width: 0;
+}
+
+.gemnah-products-category-header h2 {
+    margin: 8px 0 0;
+    color: var(--gemnah-ink);
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.16;
+    overflow-wrap: anywhere;
+}
+
+.gemnah-products-category-description {
+    max-width: 760px;
+    margin-top: 12px;
+    color: #5f6361;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+}
+
 .gemnah-products-grid > [class*="col-"] {
     display: flex;
 }
 
 .gemnah-product-card {
+    min-width: 0;
     width: 100%;
 }
 
 .gemnah-product-card .single-product-wrap {
+    --bs-gutter-x: 0;
     height: 100%;
     align-content: flex-start;
+    margin-right: 0;
+    margin-left: 0;
 }
 
 .gemnah-product-card .product-image a.pro-img {
@@ -2023,6 +2178,10 @@ body {
 }
 
 @media (max-width: 1199px) {
+    .gemnah-home-hero-slide {
+        min-height: clamp(460px, 62vw, 620px);
+    }
+
     .gemnah-frontend-logo {
         width: 140px;
     }
@@ -2098,6 +2257,28 @@ body {
 }
 
 @media (max-width: 991px) {
+    .gemnah-home-hero-slide {
+        min-height: clamp(430px, 72vw, 580px);
+    }
+
+    .gemnah-home-hero-overlay {
+        align-items: center;
+        padding: 48px 0 72px;
+        background: linear-gradient(180deg, rgba(9, 10, 11, .2), rgba(9, 10, 11, .72));
+    }
+
+    .gemnah-home-hero-copy {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 0;
+        text-align: center;
+    }
+
+    .gemnah-home-hero-copy p {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
     .gemnah-contact-content {
         padding: 48px 0;
     }
@@ -2147,6 +2328,18 @@ body {
 }
 
 @media (max-width: 767px) {
+    .gemnah-home-hero-slide {
+        min-height: clamp(380px, 105vw, 520px);
+    }
+
+    .gemnah-home-hero-copy h1 {
+        font-size: clamp(31px, 10vw, 46px);
+    }
+
+    .gemnah-section-heading {
+        margin-bottom: 26px;
+    }
+
     .gemnah-about-banner-section {
         padding-top: 32px;
     }
@@ -2231,6 +2424,10 @@ body {
         margin-bottom: 26px;
     }
 
+    .gemnah-products-category-header {
+        margin-bottom: 20px;
+    }
+
     .gemnah-product-detail-content {
         padding: 40px 0;
     }
@@ -2250,6 +2447,31 @@ body {
 }
 
 @media (max-width: 575px) {
+    .gemnah-home-hero-slide {
+        min-height: 420px;
+    }
+
+    .gemnah-home-hero-overlay {
+        align-items: flex-end;
+        padding: 34px 0 78px;
+    }
+
+    .gemnah-home-kicker {
+        font-size: 12px;
+        letter-spacing: .14em;
+    }
+
+    .gemnah-home-hero-copy p {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .gemnah-home-hero-btn {
+        width: 100%;
+        max-width: 280px;
+        margin-top: 20px;
+    }
+
     .gemnah-frontend-logo {
         width: 120px;
     }
@@ -2372,6 +2594,15 @@ body {
     .gemnah-product-card {
         max-width: 360px;
         margin: 0 auto;
+    }
+
+    .gemnah-products-kicker {
+        font-size: 12px;
+        letter-spacing: .12em;
+    }
+
+    .gemnah-products-category-section {
+        padding: 20px 14px;
     }
 
     .gemnah-products-pagination .page-link {

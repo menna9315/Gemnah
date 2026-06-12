@@ -1,6 +1,5 @@
 @php
     $menuCategories = $frontendMenuCategories ?? collect();
-    $firstMenuCategory = $menuCategories->first();
     $customerIsSignedIn = auth('customer')->check();
     $customerAccountUrl = $customerIsSignedIn ? route('frontend.account') : route('frontend.login');
 @endphp
@@ -27,7 +26,7 @@
                             <li class="menu-li bst">
                                 <div class="menu-btn d-flex flex-row-reverse">
                                     <button type="button" class="width-48 icon-16 ptb-10 bsl" data-bs-toggle="collapse" data-bs-target="#menu-products" aria-expanded="false" aria-label="Products menu"><i class="ri-add-line d-block lh-1"></i></button>
-                                    <span class="width-calc-48 ptb-10 plr-15"><a href="{{ $firstMenuCategory ? route('frontend.products.category', $firstMenuCategory->slug) : 'javascript:void(0)' }}" class="d-inline-block body-color text-uppercase heading-weight">Products</a></span>
+                                    <span class="width-calc-48 ptb-10 plr-15"><a href="{{ route('frontend.products.index') }}" class="d-inline-block body-color text-uppercase heading-weight">Products</a></span>
                                 </div>
                                 <div class="menu-dropdown collapse" id="menu-products">
                                     <ul class="menudrop-ul">
@@ -208,7 +207,7 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="{{ $firstMenuCategory ? route('frontend.products.category', $firstMenuCategory->slug) : route('frontend.home') }}" class="d-flex flex-column align-items-center ptb-10 text-center">
+                    <a href="{{ route('frontend.products.index') }}" class="d-flex flex-column align-items-center ptb-10 text-center">
                         <span class="bottom-menu-icon heading-color icon-16"><i class="ri-layout-grid-line d-block lh-1"></i></span>
                         <span class="bottom-menu-title body-color font-10 mst-4 text-uppercase lh-1">Shop</span>
                     </a>

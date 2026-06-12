@@ -319,6 +319,18 @@ return [
             'active' => ['backend/about-us*'],
         ],
         [
+            'text' => 'Home Banners',
+            'route' => 'backend.home-banners.index',
+            'icon' => 'fas fa-fw fa-images',
+            'active' => ['backend/home-banners*'],
+        ],
+        [
+            'text' => 'Home Videos',
+            'route' => 'backend.home-videos.index',
+            'icon' => 'fas fa-fw fa-video',
+            'active' => ['backend/home-videos*'],
+        ],
+        [
             'text' => 'Collections',
             'route' => 'backend.collections.index',
             'icon' => 'fas fa-fw fa-layer-group',

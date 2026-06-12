@@ -1,6 +1,5 @@
 @php
     $menuCategories = $frontendMenuCategories ?? collect();
-    $firstMenuCategory = $menuCategories->first();
     $customerIsSignedIn = auth('customer')->check();
     $customer = auth('customer')->user();
     $customerName = trim((string) ($customer?->name ?? ''));
@@ -49,7 +48,7 @@
                                                 </a>
                                             </li>
                                             <li class="menu-li">
-                                                <a href="{{ $firstMenuCategory ? route('frontend.products.category', $firstMenuCategory->slug) : 'javascript:void(0)' }}" class="menu-link d-flex align-items-center ptb-10 plr-15">
+                                                <a href="{{ route('frontend.products.index') }}" class="menu-link d-flex align-items-center ptb-10 plr-15">
                                                     <span class="menu-title text-uppercase heading-weight">Products</span>
                                                     <span class="icon-16 fw-normal"><i class="ri-arrow-down-s-line d-block lh-1"></i></span>
                                                 </a>

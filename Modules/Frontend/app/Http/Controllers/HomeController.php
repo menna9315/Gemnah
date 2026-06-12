@@ -8,6 +8,7 @@ use Modules\Backend\Models\Category;
 use Modules\Backend\Models\Contact;
 use Modules\Backend\Models\ContactMessage;
 use Modules\Backend\Models\ExchangeRefundPolicyParagraph;
+use Modules\Backend\Models\HomeBanner;
 use Modules\Backend\Models\JoinUs;
 use Modules\Backend\Models\PrivacyPolicyParagraph;
 use Modules\Backend\Models\ProductItem;
@@ -23,7 +24,26 @@ class HomeController
 
     public function home()
     {
-        return view('frontend::pages.home');
+        $homeBanners = HomeBanner::query()
+            ->orderBy('image_order')
+            ->orderBy('id')
+            ->get();
+
+        $bestSellerProductItems = $this->homeProductItems()
+            ->where('is_best_seller', true)
+            ->limit(8)
+            ->get();
+
+        $featuredProductItems = $this->homeProductItems()
+            ->where('is_featured', true)
+            ->limit(8)
+            ->get();
+
+        return view('frontend::pages.home', compact(
+            'homeBanners',
+            'bestSellerProductItems',
+            'featuredProductItems'
+        ));
     }
 
     public function aboutUs()
@@ -63,6 +83,33 @@ class HomeController
             ->paginate(12);
 
         return view('frontend::pages.category-products', compact('category', 'productItems'));
+    }
+
+    public function products()
+    {
+        $categories = Category::query()
+            ->with('collection')
+            ->where('show_in_store', true)
+            ->whereHas('collection', function ($query) {
+                $query->where('show_in_store', true);
+            })
+            ->whereHas('products', function ($query) {
+                $query->where('show_in_store', true)
+                    ->whereHas('items', function ($query) {
+                        $query->where('show_in_store', true);
+                    });
+            })
+            ->orderBy('category_order')
+            ->orderBy('title')
+            ->get();
+
+        $productItemsByCategory = $this->homeProductItems()
+            ->get()
+            ->groupBy(function (ProductItem $item) {
+                return $item->product?->category_id;
+            });
+
+        return view('frontend::pages.products', compact('categories', 'productItemsByCategory'));
     }
 
     public function productItemDetails(Category $category, ProductItem $item)
@@ -189,5 +236,31 @@ class HomeController
         ]);
 
         return back()->with('join_success', 'Thank you for joining our family.');
+    }
+
+    private function homeProductItems()
+    {
+        return ProductItem::query()
+            ->with([
+                'color',
+                'size',
+                'itemImages' => function ($query) {
+                    $query->orderBy('item_order')
+                        ->orderBy('id');
+                },
+                'product.category.collection',
+            ])
+            ->where('show_in_store', true)
+            ->whereHas('product', function ($query) {
+                $query->where('show_in_store', true)
+                    ->whereHas('category', function ($query) {
+                        $query->where('show_in_store', true)
+                            ->whereHas('collection', function ($query) {
+                                $query->where('show_in_store', true);
+                            });
+                    });
+            })
+            ->orderBy('manual_order')
+            ->latest();
     }
 }

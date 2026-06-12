@@ -10,6 +10,8 @@ use Modules\Backend\Http\Controllers\ContactController;
 use Modules\Backend\Http\Controllers\ContactMessageController;
 use Modules\Backend\Http\Controllers\DashboardController;
 use Modules\Backend\Http\Controllers\ExchangeRefundPolicyParagraphController;
+use Modules\Backend\Http\Controllers\HomeBannerController;
+use Modules\Backend\Http\Controllers\HomeVideoController;
 use Modules\Backend\Http\Controllers\JoinUsController;
 use Modules\Backend\Http\Controllers\PrivacyPolicyParagraphController;
 use Modules\Backend\Http\Controllers\ProductController;
@@ -39,6 +41,12 @@ Route::prefix('backend')->name('backend.')->group(function () {
         Route::resource('about-us', AboutUsController::class)
             ->parameters(['about-us' => 'aboutUs'])
             ->except(['show']);
+        Route::resource('home-banners', HomeBannerController::class)
+            ->parameters(['home-banners' => 'homeBanner'])
+            ->except(['show']);
+        Route::resource('home-videos', HomeVideoController::class)
+            ->parameters(['home-videos' => 'homeVideo'])
+            ->except(['show', 'destroy']);
         Route::resource('colors', ColorController::class);
         Route::resource('sizes', SizeController::class);
         Route::resource('collections', CollectionController::class);
