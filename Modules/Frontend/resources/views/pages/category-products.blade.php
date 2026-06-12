@@ -56,7 +56,7 @@
                                                     <img src="{{ $secondaryImageUrl }}" class="w-100 img-fluid img2" alt="{{ $item->title }}">
 
                                                     @if ($item->is_out_of_stock)
-                                                        <span class="product-label product-label-sold product-label-left">Sold</span>
+                                                        <span class="product-label product-label-sold product-label-left">Out of stock</span>
                                                     @elseif ($item->is_best_seller)
                                                         <span class="product-label product-label-new product-label-left">Best</span>
                                                     @endif

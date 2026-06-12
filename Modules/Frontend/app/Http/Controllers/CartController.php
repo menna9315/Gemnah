@@ -26,7 +26,7 @@ class CartController
             'redirect_to' => ['nullable', 'in:cart,checkout'],
         ]);
 
-        if ($item->is_out_of_stock || (int) $item->stock_quantity <= 0) {
+        if ($item->is_out_of_stock) {
             return back()
                 ->withErrors(['cart' => 'This item is out of stock.'])
                 ->withInput();

@@ -11,7 +11,9 @@
             ->values();
         $sellingPrice = (float) $item->selling_price;
         $carouselId = 'product-item-carousel-'.$item->id;
-        $isUnavailable = $item->is_out_of_stock || (int) $item->stock_quantity <= 0;
+        $isUnavailable = (bool) $item->is_out_of_stock;
+        $quantityMax = (int) $item->stock_quantity > 0 ? min((int) $item->stock_quantity, 99) : 99;
+        $selectedQuantity = min(max((int) old('quantity', 1), 1), $quantityMax);
     @endphp
 
     <div class="breadcrumb-area ptb-30 bg-img text-center gemnah-about-template-banner"
@@ -103,7 +105,7 @@
 
                         <div class="gemnah-product-stock {{ $isUnavailable ? 'is-out' : 'is-in' }}">
                             <span></span>
-                            {{ $isUnavailable ? 'Out of stock' : number_format((int) $item->stock_quantity).' in stock' }}
+                            {{ $isUnavailable ? 'Out of stock' : 'In stock' }}
                         </div>
 
                         <dl class="gemnah-product-specs">
@@ -157,7 +159,28 @@
 
                         <form action="{{ route('frontend.cart.items.store', $item) }}" method="post" class="gemnah-product-actions">
                             @csrf
-                            <input type="hidden" name="quantity" value="1">
+                            <div class="gemnah-product-quantity">
+                                <label for="product-item-quantity-{{ $item->id }}">Quantity</label>
+                                <div class="gemnah-product-quantity-control">
+                                    <button type="button" class="gemnah-product-quantity-btn js-qty-adjust-minus" aria-label="Decrease quantity" @if ($isUnavailable) disabled @endif>
+                                        <i class="ri-subtract-line"></i>
+                                    </button>
+                                    <input
+                                        id="product-item-quantity-{{ $item->id }}"
+                                        type="number"
+                                        name="quantity"
+                                        class="gemnah-product-quantity-input js-qty-num"
+                                        value="{{ $selectedQuantity }}"
+                                        min="1"
+                                        max="{{ $quantityMax }}"
+                                        inputmode="numeric"
+                                        @if ($isUnavailable) disabled @endif
+                                    >
+                                    <button type="button" class="gemnah-product-quantity-btn js-qty-adjust-plus" aria-label="Increase quantity" @if ($isUnavailable) disabled @endif>
+                                        <i class="ri-add-line"></i>
+                                    </button>
+                                </div>
+                            </div>
 
                             <button type="submit" name="redirect_to" value="cart"
                                 class="btn-style quaternary-btn gemnah-product-action-btn @if ($isUnavailable) disabled pe-none @endif"
@@ -231,7 +254,7 @@
                                                         <img src="{{ $relatedSecondaryImageUrl }}" class="w-100 img-fluid img2" alt="{{ $relatedItem->title }}">
 
                                                         @if ($relatedItem->is_out_of_stock)
-                                                            <span class="product-label product-label-sold product-label-left">Sold</span>
+                                                            <span class="product-label product-label-sold product-label-left">Out of stock</span>
                                                         @elseif ($relatedItem->is_best_seller)
                                                             <span class="product-label product-label-new product-label-left">Best</span>
                                                         @endif
@@ -273,3 +296,48 @@
         </section>
     </main>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function clampQuantity(input) {
+                var min = parseInt(input.getAttribute('min') || '1', 10);
+                var max = parseInt(input.getAttribute('max') || '99', 10);
+                var value = parseInt(input.value, 10);
+
+                if (Number.isNaN(value)) {
+                    value = min;
+                }
+
+                input.value = Math.min(Math.max(value, min), max);
+            }
+
+            document.querySelectorAll('.gemnah-product-quantity-input').forEach(function (input) {
+                input.addEventListener('input', function () {
+                    clampQuantity(input);
+                });
+
+                input.addEventListener('change', function () {
+                    clampQuantity(input);
+                });
+            });
+
+            document.addEventListener('click', function (event) {
+                var button = event.target.closest('.gemnah-product-quantity-btn');
+
+                if (! button) {
+                    return;
+                }
+
+                var control = button.closest('.gemnah-product-quantity-control');
+                var input = control ? control.querySelector('.gemnah-product-quantity-input') : null;
+
+                if (input) {
+                    window.setTimeout(function () {
+                        clampQuantity(input);
+                    }, 0);
+                }
+            });
+        });
+    </script>
+@endpush

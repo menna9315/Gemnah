@@ -74,6 +74,13 @@
                                                     <span class="menu-title text-uppercase heading-weight">Contact Us</span>
                                                 </a>
                                             </li>
+                                            @if ($customerIsSignedIn)
+                                                <li class="menu-li">
+                                                    <a href="{{ route('frontend.orders') }}" class="menu-link d-flex align-items-center ptb-10 plr-15">
+                                                        <span class="menu-title text-uppercase heading-weight">Your Orders</span>
+                                                    </a>
+                                                </li>
+                                            @endif
                                           
                                         
                                           

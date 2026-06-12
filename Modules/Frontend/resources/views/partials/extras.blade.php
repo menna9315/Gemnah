@@ -55,6 +55,31 @@
                                     <span class="d-block ptb-10 plr-15"><a href="{{ $customerAccountUrl }}" class="d-inline-block body-color text-uppercase heading-weight">Account</a></span>
                                 </div>
                             </li>
+                            @if ($customerIsSignedIn)
+                                <li class="menu-li bst">
+                                    <div class="menu-btn">
+                                        <span class="d-block ptb-10 plr-15"><a href="{{ route('frontend.orders') }}" class="d-inline-block body-color text-uppercase heading-weight">Your Orders</a></span>
+                                    </div>
+                                </li>
+                                <li class="menu-li bst">
+                                    <div class="menu-btn">
+                                        <span class="d-block ptb-10 plr-15">
+                                            <form action="{{ route('frontend.logout') }}" method="post" class="m-0">
+                                                @csrf
+                                                <button type="submit" class="d-inline-block body-color text-uppercase heading-weight bg-transparent border-0 p-0">
+                                                    Sign out
+                                                </button>
+                                            </form>
+                                        </span>
+                                    </div>
+                                </li>
+                            @else
+                                <li class="menu-li bst">
+                                    <div class="menu-btn">
+                                        <span class="d-block ptb-10 plr-15"><a href="{{ route('frontend.login') }}" class="d-inline-block body-color text-uppercase heading-weight">Sign in</a></span>
+                                    </div>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -189,13 +214,20 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="wishlist.html" class="d-flex flex-column align-items-center ptb-10 text-center">
-                        <span class="bottom-menu-icon-wrap position-relative per-7">
-                            <span class="d-block bottom-menu-icon heading-color icon-16"><i class="ri-heart-line d-block lh-1"></i></span>
-                            <span class="bottom-menu-counter wishlist-counter extra-color font-10 position-absolute end-0 secondary-bg d-flex align-items-center justify-content-center rounded-circle">4</span>
-                        </span>
-                        <span class="bottom-menu-title body-color font-10 mst-4 text-uppercase lh-1">Wishlist</span>
-                    </a>
+                    @if ($customerIsSignedIn)
+                        <a href="{{ route('frontend.orders') }}" class="d-flex flex-column align-items-center ptb-10 text-center">
+                            <span class="bottom-menu-icon heading-color icon-16"><i class="ri-file-list-3-line d-block lh-1"></i></span>
+                            <span class="bottom-menu-title body-color font-10 mst-4 text-uppercase lh-1">Orders</span>
+                        </a>
+                    @else
+                        <a href="wishlist.html" class="d-flex flex-column align-items-center ptb-10 text-center">
+                            <span class="bottom-menu-icon-wrap position-relative per-7">
+                                <span class="d-block bottom-menu-icon heading-color icon-16"><i class="ri-heart-line d-block lh-1"></i></span>
+                                <span class="bottom-menu-counter wishlist-counter extra-color font-10 position-absolute end-0 secondary-bg d-flex align-items-center justify-content-center rounded-circle">4</span>
+                            </span>
+                            <span class="bottom-menu-title body-color font-10 mst-4 text-uppercase lh-1">Wishlist</span>
+                        </a>
+                    @endif
                 </div>
                 <div class="col">
                     <a href="javascript:void(0)" class="js-cart-drawer d-flex flex-column align-items-center ptb-10 text-center">

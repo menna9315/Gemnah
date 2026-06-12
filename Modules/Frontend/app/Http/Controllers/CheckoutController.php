@@ -62,7 +62,7 @@ class CheckoutController
             foreach ($cart->items as $cartItem) {
                 $productItem = $cartItem->productItem;
 
-                if (! $productItem || $productItem->is_out_of_stock || (int) $productItem->stock_quantity < (int) $cartItem->quantity) {
+                if (! $productItem || $productItem->is_out_of_stock) {
                     throw ValidationException::withMessages([
                         'cart' => ($productItem?->title ?: 'An item').' is no longer available in the requested quantity.',
                     ]);
@@ -117,7 +117,9 @@ class CheckoutController
                     'total_price' => $cartItem->total_price,
                 ]);
 
-                $productItem->decrement('stock_quantity', (int) $cartItem->quantity);
+                if ((int) $productItem->stock_quantity > 0) {
+                    $productItem->decrement('stock_quantity', (int) $cartItem->quantity);
+                }
             }
 
             $cart->update(['status' => 'checked_out']);

@@ -847,6 +847,17 @@ body {
     border-color: var(--gemnah-linen);
 }
 
+.gemnah-auth-form input.msg_error {
+    color: #25302d;
+    caret-color: #25302d;
+    background-color: #fff5f5;
+    border-color: #d66b6b;
+}
+
+.gemnah-auth-form input.msg_error::placeholder {
+    color: #8c6c6c;
+}
+
 .gemnah-auth-form input:focus {
     border-color: var(--gemnah-pewter);
 }
@@ -968,6 +979,257 @@ body {
 
 .gemnah-account-logout-form {
     margin-top: 16px;
+}
+
+.gemnah-account-orders-panel {
+    margin-top: 24px;
+}
+
+.gemnah-account-orders {
+    display: grid;
+    gap: 12px;
+}
+
+.gemnah-account-order {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(150px, .8fr) minmax(180px, auto);
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: var(--gemnah-cloud);
+    border: 1px solid var(--gemnah-line);
+    border-radius: 6px;
+}
+
+.gemnah-account-order-main,
+.gemnah-account-order-meta,
+.gemnah-account-order-statuses {
+    min-width: 0;
+}
+
+.gemnah-account-order-main,
+.gemnah-account-order-meta {
+    display: grid;
+    gap: 4px;
+}
+
+.gemnah-account-order-number {
+    color: var(--gemnah-ink);
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.gemnah-account-order-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.gemnah-account-order-details-btn {
+    min-height: 28px;
+    padding: 5px 11px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+    background: var(--gemnah-pewter-dark);
+    border: 1px solid var(--gemnah-pewter-dark);
+    border-radius: 999px;
+    transition: color .2s ease, background-color .2s ease, border-color .2s ease;
+}
+
+.gemnah-account-order-details-btn:hover,
+.gemnah-account-order-details-btn:focus {
+    color: var(--gemnah-ink);
+    background: transparent;
+    border-color: var(--gemnah-pewter);
+}
+
+.gemnah-account-order-date,
+.gemnah-account-order-meta {
+    color: #68706d;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.gemnah-account-order-statuses {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.gemnah-status-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 5px 10px;
+    color: var(--gemnah-ink);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+    background: #edf2ef;
+    border: 1px solid #d7dfda;
+    border-radius: 999px;
+}
+
+.gemnah-status-pill-pending {
+    color: #7a5600;
+    background: #fff5d6;
+    border-color: #efd27e;
+}
+
+.gemnah-status-pill-processing {
+    color: #1f5c6f;
+    background: #e7f7fb;
+    border-color: #a6dcea;
+}
+
+.gemnah-status-pill-completed,
+.gemnah-status-pill-delivered {
+    color: #245c38;
+    background: #e4f6ea;
+    border-color: #a7d8b6;
+}
+
+.gemnah-status-pill-cancelled,
+.gemnah-status-pill-canceled {
+    color: #8d2e2e;
+    background: #fff0f0;
+    border-color: #e3a2a2;
+}
+
+.gemnah-status-pill-payment {
+    color: var(--gemnah-pewter-dark);
+    background: #f7f8f6;
+    border-color: var(--gemnah-linen);
+}
+
+.gemnah-account-empty-orders {
+    padding: 18px;
+    color: #68706d;
+    font-weight: 700;
+    background: var(--gemnah-cloud);
+    border: 1px dashed var(--gemnah-line);
+    border-radius: 6px;
+}
+
+.gemnah-order-modal .modal-content {
+    overflow: hidden;
+    background: #fff;
+    border: 0;
+    border-radius: 8px;
+    box-shadow: 0 24px 60px rgba(17, 19, 20, .18);
+}
+
+.gemnah-order-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px;
+    border-bottom: 1px solid var(--gemnah-line);
+}
+
+.gemnah-order-modal-header h3 {
+    margin: 4px 0 0;
+    color: var(--gemnah-ink);
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.gemnah-order-modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    color: var(--gemnah-ink);
+    background: var(--gemnah-cloud);
+    border: 1px solid var(--gemnah-line);
+    border-radius: 50%;
+}
+
+.gemnah-order-modal-body {
+    display: grid;
+    gap: 12px;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 20px 22px 22px;
+}
+
+.gemnah-order-modal-item {
+    display: grid;
+    grid-template-columns: 86px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    background: var(--gemnah-cloud);
+    border: 1px solid var(--gemnah-line);
+    border-radius: 6px;
+}
+
+.gemnah-order-modal-item img {
+    width: 86px;
+    height: 86px;
+    object-fit: cover;
+    background: #fff;
+    border-radius: 6px;
+}
+
+.gemnah-order-modal-item-info {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+}
+
+.gemnah-order-modal-item-info strong {
+    color: var(--gemnah-ink);
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.gemnah-order-modal-item-info span {
+    color: #68706d;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.gemnah-order-modal-item b {
+    color: var(--gemnah-ink);
+    white-space: nowrap;
+}
+
+.gemnah-order-modal-summary {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+    background: #fff;
+    border: 1px solid var(--gemnah-line);
+    border-radius: 6px;
+}
+
+.gemnah-order-modal-summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--gemnah-ink);
+    font-weight: 700;
+}
+
+.gemnah-order-modal-summary-row strong {
+    white-space: nowrap;
+}
+
+.gemnah-order-modal-summary-row.is-total {
+    padding-top: 10px;
+    border-top: 1px solid var(--gemnah-line);
+    font-weight: 800;
 }
 
 .gemnah-checkout-content {
@@ -1092,6 +1354,10 @@ body {
     margin: 0 auto;
 }
 
+.gemnah-checkout-success {
+    text-align: center;
+}
+
 .gemnah-checkout-empty span,
 .gemnah-checkout-success > span {
     width: 54px;
@@ -1111,6 +1377,28 @@ body {
     margin: 0 0 22px;
     color: #5f6361;
     line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.gemnah-checkout-success .gemnah-checkout-total {
+    text-align: left;
+}
+
+.gemnah-checkout-success .gemnah-checkout-total span,
+.gemnah-checkout-success .gemnah-checkout-total strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.gemnah-checkout-success-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    max-width: 100%;
+    min-width: 190px;
+    margin: 26px auto 0;
+    text-align: center;
 }
 
 .gemnah-menu-dropdown {
@@ -1545,6 +1833,80 @@ body {
     margin-top: 22px;
 }
 
+.gemnah-product-quantity {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: flex-start;
+    justify-self: flex-start;
+    width: fit-content;
+    gap: 8px;
+    padding: 6px 8px;
+    background: var(--gemnah-cloud);
+    border: 1px solid var(--gemnah-line);
+    border-radius: 6px;
+}
+
+.gemnah-product-quantity label {
+    margin: 0;
+    color: var(--gemnah-ink);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.gemnah-product-quantity-control {
+    display: grid;
+    grid-template-columns: 28px 42px 28px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--gemnah-line);
+    border-radius: 6px;
+}
+
+.gemnah-product-quantity-btn,
+.gemnah-product-quantity-input {
+    width: 100%;
+    height: 28px;
+    color: var(--gemnah-ink);
+    background: #fff;
+    border: 0;
+}
+
+.gemnah-product-quantity-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+
+.gemnah-product-quantity-btn:hover:not(:disabled),
+.gemnah-product-quantity-btn:focus:not(:disabled) {
+    color: #fff;
+    background: var(--gemnah-pewter-dark);
+}
+
+.gemnah-product-quantity-btn:disabled,
+.gemnah-product-quantity-input:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+.gemnah-product-quantity-input {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 800;
+    border-right: 1px solid var(--gemnah-line);
+    border-left: 1px solid var(--gemnah-line);
+    -moz-appearance: textfield;
+}
+
+.gemnah-product-quantity-input::-webkit-outer-spin-button,
+.gemnah-product-quantity-input::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
 .gemnah-product-action-btn {
     width: 100%;
     gap: 8px;
@@ -1852,6 +2214,15 @@ body {
         padding: 40px 0;
     }
 
+    .gemnah-account-order {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+
+    .gemnah-account-order-statuses {
+        justify-content: flex-start;
+    }
+
     .gemnah-products-content {
         padding: 40px 0;
     }
@@ -1900,10 +2271,68 @@ body {
         padding: 22px 18px;
     }
 
+    .gemnah-checkout-success h1 {
+        margin-bottom: 14px;
+        font-size: 24px;
+        line-height: 1.25;
+    }
+
+    .gemnah-checkout-success > span {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 14px;
+        font-size: 22px;
+    }
+
+    .gemnah-checkout-success p {
+        margin-bottom: 18px;
+    }
+
+    .gemnah-checkout-success .gemnah-checkout-total {
+        align-items: flex-start;
+        gap: 8px;
+        margin-top: 12px;
+        padding-top: 12px;
+    }
+
+    .gemnah-checkout-success .gemnah-checkout-total strong {
+        text-align: right;
+    }
+
+    .gemnah-checkout-success-action {
+        width: 100%;
+        min-width: 0;
+        margin-top: 22px;
+    }
+
     .gemnah-account-panel-header {
         flex-direction: column;
         align-items: stretch;
     }
+
+    .gemnah-order-modal-header {
+        padding: 18px;
+    }
+
+    .gemnah-order-modal-body {
+        padding: 16px 18px 18px;
+    }
+
+    .gemnah-order-modal-item {
+        grid-template-columns: 68px minmax(0, 1fr);
+        align-items: flex-start;
+    }
+
+    .gemnah-order-modal-item img {
+        width: 68px;
+        height: 68px;
+    }
+
+    .gemnah-order-modal-item b {
+        grid-column: 2;
+        justify-self: flex-start;
+    }
+
     .gemnah-terms-paragraph {
         padding: 22px 18px;
     }
@@ -1962,6 +2391,15 @@ body {
 
     .gemnah-product-actions {
         grid-template-columns: 1fr;
+    }
+
+    .gemnah-product-quantity {
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .gemnah-product-quantity-control {
+        grid-template-columns: 28px 42px 28px;
     }
 
     .gemnah-product-gallery-thumbs {

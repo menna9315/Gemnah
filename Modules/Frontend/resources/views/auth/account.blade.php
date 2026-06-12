@@ -53,6 +53,8 @@
                             </button>
                         </form>
                     </section>
+
+                    @include('frontend::auth.partials.orders', ['orders' => $orders])
                 </div>
             </div>
         </section>

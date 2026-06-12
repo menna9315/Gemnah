@@ -12,6 +12,7 @@ Route::post('/account/login', [CustomerAuthController::class, 'login'])->name('f
 Route::get('/account/register', [CustomerAuthController::class, 'showRegisterForm'])->name('frontend.register');
 Route::post('/account/register', [CustomerAuthController::class, 'register'])->name('frontend.register.store');
 Route::get('/account', [CustomerAuthController::class, 'account'])->name('frontend.account');
+Route::get('/account/orders', [CustomerAuthController::class, 'orders'])->name('frontend.orders');
 Route::post('/account/logout', [CustomerAuthController::class, 'logout'])->name('frontend.logout');
 Route::post('/cart/items/{item}', [CartController::class, 'store'])->name('frontend.cart.items.store');
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('frontend.checkout');

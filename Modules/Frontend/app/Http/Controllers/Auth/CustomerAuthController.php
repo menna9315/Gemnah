@@ -100,7 +100,22 @@ class CustomerAuthController
             return redirect()->route('frontend.login');
         }
 
-        return view('frontend::auth.account', compact('customer'));
+        $orders = $this->customerOrders($customer);
+
+        return view('frontend::auth.account', compact('customer', 'orders'));
+    }
+
+    public function orders()
+    {
+        $customer = Auth::guard('customer')->user();
+
+        if (! $customer) {
+            return redirect()->route('frontend.login');
+        }
+
+        $orders = $this->customerOrders($customer);
+
+        return view('frontend::auth.orders', compact('customer', 'orders'));
     }
 
     public function logout(Request $request)
@@ -112,5 +127,15 @@ class CustomerAuthController
         return redirect()
             ->route('frontend.login')
             ->with('success', 'Signed out successfully.');
+    }
+
+    private function customerOrders(Customer $customer)
+    {
+        return $customer->orders()
+            ->with(['items.productItem.product'])
+            ->withCount('items')
+            ->latest('placed_at')
+            ->latest('id')
+            ->get();
     }
 }

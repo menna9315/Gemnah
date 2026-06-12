@@ -34,7 +34,7 @@
                         <strong>EGP {{ number_format((float) $order->total_amount, 2) }}</strong>
                     </div>
 
-                    <a href="{{ route('frontend.home') }}" class="btn-style secondary-btn">
+                    <a href="{{ route('frontend.home') }}" class="btn-style secondary-btn gemnah-checkout-success-action">
                         Continue shopping
                     </a>
                 </div>
