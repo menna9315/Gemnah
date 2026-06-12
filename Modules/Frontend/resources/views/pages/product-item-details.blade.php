@@ -14,6 +14,7 @@
         $isUnavailable = (bool) $item->is_out_of_stock;
         $quantityMax = (int) $item->stock_quantity > 0 ? min((int) $item->stock_quantity, 99) : 99;
         $selectedQuantity = min(max((int) old('quantity', 1), 1), $quantityMax);
+        $colorVariantItems = $colorVariantItems ?? collect();
     @endphp
 
     <div class="breadcrumb-area ptb-30 bg-img text-center gemnah-about-template-banner"
@@ -95,6 +96,12 @@
 
                         <h1>{{ $item->title }}</h1>
 
+                        @if ($item->item_code)
+                            <div class="gemnah-product-detail-code">
+                                Item code: {{ $item->item_code }}
+                            </div>
+                        @endif
+
                         <div class="gemnah-product-detail-price">
                             @if ($sellingPrice > 0)
                                 EGP {{ number_format($sellingPrice, 2) }}
@@ -107,6 +114,49 @@
                             <span></span>
                             {{ $isUnavailable ? 'Out of stock' : 'In stock' }}
                         </div>
+
+                        @if ($colorVariantItems->count() > 1)
+                            <div class="gemnah-product-color-variants">
+                                <div class="gemnah-product-option-title">
+                                    Color
+                                    @if ($item->color?->name)
+                                        <span>{{ $item->color->name }}</span>
+                                    @endif
+                                </div>
+
+                                <div class="gemnah-product-color-list">
+                                    @foreach ($colorVariantItems as $variantItem)
+                                        @php
+                                            $variantColor = $variantItem->color;
+                                            $variantCategory = $variantItem->product?->category ?: $category;
+                                            $isActiveColor = (int) $variantItem->color_id === (int) $item->color_id;
+                                        @endphp
+
+                                        @continue(! $variantColor || ! $variantCategory)
+
+                                        @php
+                                            $variantUrl = route('frontend.products.item', [$variantCategory->slug, $variantItem->slug]);
+                                        @endphp
+
+                                        @if ($isActiveColor)
+                                            <span class="gemnah-product-color-choice is-active" aria-current="true"
+                                                title="{{ $variantColor->name }}">
+                                                <span class="gemnah-product-color-swatch"
+                                                    @if ($variantColor->code) style="background-color: {{ $variantColor->code }}" @endif></span>
+                                                <span>{{ $variantColor->name }}</span>
+                                            </span>
+                                        @else
+                                            <a href="{{ $variantUrl }}" class="gemnah-product-color-choice"
+                                                title="{{ $variantColor->name }}">
+                                                <span class="gemnah-product-color-swatch"
+                                                    @if ($variantColor->code) style="background-color: {{ $variantColor->code }}" @endif></span>
+                                                <span>{{ $variantColor->name }}</span>
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
 
                         <dl class="gemnah-product-specs">
                             @if ($item->color)
@@ -132,13 +182,6 @@
                                 <div>
                                     <dt>Fabric</dt>
                                     <dd>{{ $item->fabric }}</dd>
-                                </div>
-                            @endif
-
-                            @if ($item->item_code)
-                                <div>
-                                    <dt>Item code</dt>
-                                    <dd>{{ $item->item_code }}</dd>
                                 </div>
                             @endif
                         </dl>

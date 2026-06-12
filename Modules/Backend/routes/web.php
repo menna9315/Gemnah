@@ -13,6 +13,7 @@ use Modules\Backend\Http\Controllers\ExchangeRefundPolicyParagraphController;
 use Modules\Backend\Http\Controllers\HomeBannerController;
 use Modules\Backend\Http\Controllers\HomeVideoController;
 use Modules\Backend\Http\Controllers\JoinUsController;
+use Modules\Backend\Http\Controllers\OrderController;
 use Modules\Backend\Http\Controllers\PrivacyPolicyParagraphController;
 use Modules\Backend\Http\Controllers\ProductController;
 use Modules\Backend\Http\Controllers\ProductImageController;
@@ -47,6 +48,14 @@ Route::prefix('backend')->name('backend.')->group(function () {
         Route::resource('home-videos', HomeVideoController::class)
             ->parameters(['home-videos' => 'homeVideo'])
             ->except(['show', 'destroy']);
+        Route::resource('orders', OrderController::class)
+            ->only(['index', 'show']);
+        Route::post('orders/{order}/confirm', [OrderController::class, 'confirm'])
+            ->name('orders.confirm');
+        Route::post('orders/{order}/shipping-company', [OrderController::class, 'shippingCompany'])
+            ->name('orders.shipping-company');
+        Route::post('orders/{order}/deliver', [OrderController::class, 'deliver'])
+            ->name('orders.deliver');
         Route::resource('colors', ColorController::class);
         Route::resource('sizes', SizeController::class);
         Route::resource('collections', CollectionController::class);

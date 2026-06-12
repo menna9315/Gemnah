@@ -133,6 +133,21 @@ class HomeController
         abort_unless($item->product?->show_in_store, 404);
         abort_unless($item->product?->category_id === $category->id, 404);
 
+        $colorVariantItems = ProductItem::query()
+            ->with(['color', 'product.category'])
+            ->where('product_id', $item->product_id)
+            ->where('show_in_store', true)
+            ->whereNotNull('color_id')
+            ->whereHas('color')
+            ->orderBy('manual_order')
+            ->orderBy('id')
+            ->get()
+            ->groupBy('color_id')
+            ->map(function ($items) use ($item) {
+                return $items->firstWhere('id', $item->id) ?: $items->first();
+            })
+            ->values();
+
         $relatedProductItems = ProductItem::query()
             ->with([
                 'color',
@@ -161,7 +176,12 @@ class HomeController
             ->limit(4)
             ->get();
 
-        return view('frontend::pages.product-item-details', compact('category', 'item', 'relatedProductItems'));
+        return view('frontend::pages.product-item-details', compact(
+            'category',
+            'item',
+            'colorVariantItems',
+            'relatedProductItems'
+        ));
     }
 
     public function contactUs()

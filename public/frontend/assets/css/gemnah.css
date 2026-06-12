@@ -1938,6 +1938,15 @@ body {
     overflow-wrap: anywhere;
 }
 
+.gemnah-product-detail-code {
+    margin-top: 8px;
+    color: var(--gemnah-pewter);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
 .gemnah-product-detail-price {
     margin-top: 18px;
     color: var(--gemnah-pewter-dark);
@@ -1979,6 +1988,78 @@ body {
 
 .gemnah-product-stock.is-out span {
     background: #9b3232;
+}
+
+.gemnah-product-color-variants {
+    margin-top: 18px;
+}
+
+.gemnah-product-option-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    color: var(--gemnah-ink);
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.gemnah-product-option-title span {
+    color: var(--gemnah-pewter);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: none;
+}
+
+.gemnah-product-color-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.gemnah-product-color-choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    min-height: 42px;
+    padding: 8px 12px;
+    color: var(--gemnah-ink);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.25;
+    background: #fff;
+    border: 1px solid var(--gemnah-line);
+    border-radius: 6px;
+}
+
+.gemnah-product-color-choice:hover,
+.gemnah-product-color-choice:focus,
+.gemnah-product-color-choice.is-active {
+    color: var(--gemnah-ink);
+    background: var(--gemnah-cloud);
+    border-color: var(--gemnah-pewter-dark);
+}
+
+.gemnah-product-color-choice.is-active {
+    box-shadow: 0 0 0 2px rgba(47, 52, 52, .12);
+    cursor: default;
+}
+
+.gemnah-product-color-choice > span:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.gemnah-product-color-swatch {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+    background: linear-gradient(135deg, #fff, var(--gemnah-silver));
+    border: 1px solid rgba(17, 19, 20, .18);
+    border-radius: 50%;
 }
 
 .gemnah-product-actions {
@@ -2614,6 +2695,10 @@ body {
     .gemnah-product-detail-info,
     .gemnah-size-chart {
         padding: 22px 18px;
+    }
+
+    .gemnah-product-color-choice {
+        flex: 1 1 calc(50% - 10px);
     }
 
     .gemnah-product-specs {

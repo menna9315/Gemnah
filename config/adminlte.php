@@ -331,6 +331,12 @@ return [
             'active' => ['backend/home-videos*'],
         ],
         [
+            'text' => 'Orders',
+            'route' => 'backend.orders.index',
+            'icon' => 'fas fa-fw fa-shopping-bag',
+            'active' => ['backend/orders*'],
+        ],
+        [
             'text' => 'Collections',
             'route' => 'backend.collections.index',
             'icon' => 'fas fa-fw fa-layer-group',

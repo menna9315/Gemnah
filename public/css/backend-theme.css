@@ -303,6 +303,68 @@ a {
     border-radius: 4px;
 }
 
+.order-status-badge {
+    padding: .42rem .62rem;
+    color: var(--gemnah-ink);
+    background: var(--gemnah-mist);
+    border: 1px solid var(--gemnah-line);
+}
+
+.order-status-pending {
+    color: #5f4d00;
+    background: #fff3cd;
+    border-color: #ffe69c;
+}
+
+.order-status-confirmed {
+    color: #1f4b35;
+    background: #d9f3e4;
+    border-color: #b9e6cd;
+}
+
+.order-status-shipping-company {
+    color: #264653;
+    background: #dceff4;
+    border-color: #b8dce5;
+}
+
+.order-status-delivered {
+    color: #fff;
+    background: #52615d;
+    border-color: #52615d;
+}
+
+.order-detail-panel {
+    padding: 18px;
+    background: #fff;
+    border: 1px solid var(--gemnah-line);
+    border-radius: 4px;
+}
+
+.order-detail-panel h5 {
+    margin-bottom: 14px;
+    color: var(--gemnah-ink);
+}
+
+.order-detail-panel dt {
+    color: var(--gemnah-pewter);
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.order-detail-panel dd {
+    margin-bottom: 10px;
+    overflow-wrap: anywhere;
+}
+
+.order-item-thumb {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border: 1px solid var(--gemnah-linen);
+    border-radius: 4px;
+}
+
 .category-thumb,
 .collection-thumb,
 .product-thumb,
