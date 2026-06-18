@@ -116,6 +116,15 @@ class CartManager
         return $this->refreshSubtotal($cartItem->cart);
     }
 
+    public function removeItem(CartItem $cartItem): Cart
+    {
+        $cart = $cartItem->cart;
+
+        $cartItem->delete();
+
+        return $this->refreshSubtotal($cart);
+    }
+
     public function count(): int
     {
         $cart = $this->currentCart();

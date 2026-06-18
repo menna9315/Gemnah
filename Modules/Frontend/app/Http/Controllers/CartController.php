@@ -95,4 +95,28 @@ class CartController
 
         return back()->with('cart_open', true);
     }
+
+    public function destroy(Request $request, CartItem $cartItem)
+    {
+        $cart = $this->cartManager->currentCart();
+
+        abort_unless($cart && (int) $cartItem->cart_id === (int) $cart->id, 404);
+
+        $updatedCart = $this->cartManager->removeItem($cartItem);
+        $cartCount = (int) $updatedCart->items()->sum('quantity');
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Item removed from cart.',
+                'subtotal' => 'EGP '.number_format((float) $updatedCart->subtotal, 2),
+                'cart_count' => $cartCount,
+                'checkout_text' => 'Checkout'.($cartCount ? ' ('.$cartCount.')' : ''),
+                'is_empty' => $cartCount === 0,
+            ]);
+        }
+
+        return back()
+            ->with('success', 'Item removed from cart.')
+            ->with('cart_open', true);
+    }
 }

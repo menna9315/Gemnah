@@ -16,6 +16,7 @@ Route::get('/account/orders', [CustomerAuthController::class, 'orders'])->name('
 Route::post('/account/logout', [CustomerAuthController::class, 'logout'])->name('frontend.logout');
 Route::post('/cart/items/{item}', [CartController::class, 'store'])->name('frontend.cart.items.store');
 Route::patch('/cart/items/{cartItem}', [CartController::class, 'update'])->name('frontend.cart.items.update');
+Route::delete('/cart/items/{cartItem}', [CartController::class, 'destroy'])->name('frontend.cart.items.destroy');
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('frontend.checkout');
 Route::get('/checkout/shipping-fee', [CheckoutController::class, 'shippingFee'])->name('frontend.checkout.shipping-fee');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('frontend.checkout.store');

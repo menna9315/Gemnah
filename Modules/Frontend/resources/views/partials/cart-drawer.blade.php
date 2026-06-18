@@ -66,24 +66,34 @@
                                                 <span class="d-block mst-6">{{ $itemOptions }}</span>
                                             @endif
                                         </div>
-                                        <div class="gemnah-cart-quantity mst-8" aria-label="Cart quantity">
-                                            <form action="{{ route('frontend.cart.items.update', $cartItem) }}" method="post" class="js-cart-quantity-form">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="quantity" value="{{ max(1, $cartQuantity - 1) }}" class="js-cart-quantity-input">
-                                                <button type="submit" class="gemnah-cart-quantity-btn js-cart-quantity-decrease" aria-label="Decrease quantity" @disabled($cartQuantity <= 1)>
-                                                    <i class="ri-subtract-line"></i>
-                                                </button>
-                                            </form>
+                                        <div class="gemnah-cart-actions mst-8">
+                                            <div class="gemnah-cart-quantity" aria-label="Cart quantity">
+                                                <form action="{{ route('frontend.cart.items.update', $cartItem) }}" method="post" class="js-cart-quantity-form">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="quantity" value="{{ max(1, $cartQuantity - 1) }}" class="js-cart-quantity-input">
+                                                    <button type="submit" class="gemnah-cart-quantity-btn js-cart-quantity-decrease" aria-label="Decrease quantity" @disabled($cartQuantity <= 1)>
+                                                        <i class="ri-subtract-line"></i>
+                                                    </button>
+                                                </form>
 
-                                            <span class="gemnah-cart-quantity-value js-cart-quantity-value">{{ $cartQuantity }}</span>
+                                                <span class="gemnah-cart-quantity-value js-cart-quantity-value">{{ $cartQuantity }}</span>
 
-                                            <form action="{{ route('frontend.cart.items.update', $cartItem) }}" method="post" class="js-cart-quantity-form">
+                                                <form action="{{ route('frontend.cart.items.update', $cartItem) }}" method="post" class="js-cart-quantity-form">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="quantity" value="{{ min($cartQuantityMax, $cartQuantity + 1) }}" class="js-cart-quantity-input">
+                                                    <button type="submit" class="gemnah-cart-quantity-btn js-cart-quantity-increase" aria-label="Increase quantity" @disabled($cartQuantity >= $cartQuantityMax)>
+                                                        <i class="ri-add-line"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                            <form action="{{ route('frontend.cart.items.destroy', $cartItem) }}" method="post" class="js-cart-remove-form">
                                                 @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="quantity" value="{{ min($cartQuantityMax, $cartQuantity + 1) }}" class="js-cart-quantity-input">
-                                                <button type="submit" class="gemnah-cart-quantity-btn js-cart-quantity-increase" aria-label="Increase quantity" @disabled($cartQuantity >= $cartQuantityMax)>
-                                                    <i class="ri-add-line"></i>
+                                                @method('DELETE')
+                                                <button type="submit" class="gemnah-cart-remove-btn" aria-label="Delete {{ $productItem?->title ?: 'item' }} from cart" title="Delete">
+                                                    <i class="ri-delete-bin-line" aria-hidden="true"></i>
                                                 </button>
                                             </form>
                                         </div>
@@ -114,6 +124,16 @@
     </div>
 </div>
 <!-- cart-drawer end -->
+
+<template id="cart-empty-template">
+    <div class="drawer-cart-empty h-100 ptb-30 plr-15">
+        <div class="drawer-scrollable h-100 d-flex flex-column align-items-center justify-content-center text-center">
+            <span class="heading-color icon-32 meb-21"><i class="ri-shopping-bag-3-line d-block lh-1"></i></span>
+            <h2 class="font-24">No items in your shopping cart yet.</h2>
+            <a href="{{ $continueShoppingUrl }}" class="btn-style secondary-btn mst-21">Continue shopping</a>
+        </div>
+    </div>
+</template>
 
 @if (session('cart_open'))
     <script>
@@ -232,6 +252,90 @@
                     previousButtonState.forEach(function (state) {
                         state.button.disabled = state.disabled;
                     });
+
+                    if (data && data.message) {
+                        alert(data.message);
+                    }
+                })
+                .finally(function () {
+                    delete form.dataset.loading;
+                });
+        });
+
+        document.addEventListener('submit', function (event) {
+            var form = event.target.closest('.js-cart-remove-form');
+
+            if (! form) {
+                return;
+            }
+
+            event.preventDefault();
+
+            if (form.dataset.loading === 'true') {
+                return;
+            }
+
+            var line = form.closest('.gemnah-cart-line');
+            var button = form.querySelector('.gemnah-cart-remove-btn');
+
+            form.dataset.loading = 'true';
+
+            if (button) {
+                button.disabled = true;
+            }
+
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(function (response) {
+                    return response.json().then(function (data) {
+                        if (! response.ok) {
+                            throw data;
+                        }
+
+                        return data;
+                    });
+                })
+                .then(function (data) {
+                    var subtotal = document.querySelector('.js-cart-subtotal');
+                    var checkoutLink = document.querySelector('.js-cart-checkout-link');
+
+                    if (line) {
+                        line.remove();
+                    }
+
+                    if (subtotal) {
+                        subtotal.textContent = data.subtotal;
+                    }
+
+                    if (checkoutLink) {
+                        checkoutLink.textContent = data.checkout_text;
+                    }
+
+                    document.querySelectorAll('.cart-counter').forEach(function (counter) {
+                        counter.textContent = data.cart_count;
+                    });
+
+                    if (data.is_empty) {
+                        var drawerContents = document.querySelector('#cart-drawer .drawer-contents');
+                        var drawerInner = drawerContents ? drawerContents.querySelector('.drawer-inner') : null;
+                        var emptyTemplate = document.getElementById('cart-empty-template');
+
+                        if (drawerInner && emptyTemplate) {
+                            drawerInner.replaceWith(emptyTemplate.content.cloneNode(true));
+                        }
+                    }
+                })
+                .catch(function (data) {
+                    if (button) {
+                        button.disabled = false;
+                    }
 
                     if (data && data.message) {
                         alert(data.message);
