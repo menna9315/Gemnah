@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Modules\Backend\Models\ProductItem;
 use Modules\Frontend\Models\Cart;
+use Modules\Frontend\Models\CartItem;
 
 class CartManager
 {
@@ -90,6 +91,29 @@ class CartManager
         );
 
         return $this->refreshSubtotal($cart);
+    }
+
+    public function updateItemQuantity(CartItem $cartItem, int $quantity): Cart
+    {
+        $quantity = max(1, $quantity);
+        $cartItem->loadMissing('productItem');
+        $productItem = $cartItem->productItem;
+
+        if ((int) $productItem->stock_quantity > 0 && $quantity > (int) $productItem->stock_quantity) {
+            throw ValidationException::withMessages([
+                'quantity' => 'Only '.$productItem->stock_quantity.' item(s) are available in stock.',
+            ]);
+        }
+
+        $unitPrice = $this->unitPrice($productItem);
+
+        $cartItem->update([
+            'quantity' => $quantity,
+            'unit_price' => $unitPrice,
+            'total_price' => number_format($unitPrice * $quantity, 2, '.', ''),
+        ]);
+
+        return $this->refreshSubtotal($cartItem->cart);
     }
 
     public function count(): int

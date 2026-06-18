@@ -3,38 +3,32 @@
 namespace Modules\Backend\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Modules\Backend\Models\ShippingFee;
 
 class ShippingFeeController
 {
     public function index()
     {
-        $shippingFee = ShippingFee::first();
+        $shippingFees = ShippingFee::query()
+            ->orderBy('city')
+            ->get();
 
-        return view('backend::shipping-fees.index', compact('shippingFee'));
+        return view('backend::shipping-fees.index', compact('shippingFees'));
     }
 
     public function create()
     {
-        if ($shippingFee = ShippingFee::first()) {
-            return redirect()->route('backend.shipping-fees.edit', $shippingFee);
-        }
-
-        return view('backend::shipping-fees.create', [
-            'shippingFee' => new ShippingFee([
-                'city' => 'Alexandria',
+        return view('backend::shipping-fees.create', $this->formData(
+            new ShippingFee([
+                'city' => 'Cairo',
                 'amount' => 0,
             ]),
-        ]);
+        ));
     }
 
     public function store(Request $request)
     {
-        if ($shippingFee = ShippingFee::first()) {
-            return redirect()->route('backend.shipping-fees.edit', $shippingFee)
-                ->with('success', 'Shipping fee already exists. You can edit it here.');
-        }
-
         ShippingFee::create($this->validatedData($request));
 
         return redirect()
@@ -44,26 +38,36 @@ class ShippingFeeController
 
     public function edit(ShippingFee $shippingFee)
     {
-        return view('backend::shipping-fees.edit', compact('shippingFee'));
+        return view('backend::shipping-fees.edit', $this->formData($shippingFee));
     }
 
     public function update(Request $request, ShippingFee $shippingFee)
     {
-        $shippingFee->update($this->validatedData($request));
+        $shippingFee->update($this->validatedData($request, $shippingFee));
 
         return redirect()
             ->route('backend.shipping-fees.index')
             ->with('success', 'Shipping fee updated successfully.');
     }
 
-    private function validatedData(Request $request): array
+    private function formData(ShippingFee $shippingFee): array
     {
-        $request->merge([
-            'city' => 'Alexandria',
-        ]);
+        return [
+            'shippingFee' => $shippingFee,
+            'cities' => ShippingFee::egyptCities(),
+        ];
+    }
 
+    private function validatedData(Request $request, ?ShippingFee $shippingFee = null): array
+    {
         return $request->validate([
-            'city' => ['required', 'string', 'max:255'],
+            'city' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::in(ShippingFee::egyptCities()),
+                Rule::unique('shipping_fees', 'city')->ignore($shippingFee?->id),
+            ],
             'amount' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
         ]);
     }

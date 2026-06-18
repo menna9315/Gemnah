@@ -74,12 +74,22 @@
 
                                     <div class="field-col col-12 col-md-6">
                                         <label for="city" class="field-label">City</label>
-                                        <input type="text" name="city" id="city"
+                                        <select name="city" id="city"
                                             class="w-100 @error('city') msg_error @enderror"
-                                            value="Alexandria" placeholder="City" autocomplete="address-level2" readonly aria-readonly="true">
+                                            data-shipping-url="{{ route('frontend.checkout.shipping-fee') }}"
+                                            data-cart-subtotal-text="EGP {{ number_format($cartSubtotal, 2) }}"
+                                            autocomplete="address-level2" required>
+                                            <option value="">Select city</option>
+                                            @foreach ($shippingFees as $shippingFee)
+                                                <option value="{{ $shippingFee->city }}" @selected($selectedCity === $shippingFee->city)>
+                                                    {{ $shippingFee->city }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                         @error('city')
                                             <small class="gemnah-auth-error">{{ $message }}</small>
                                         @enderror
+                                        <small class="gemnah-auth-error d-none js-checkout-city-error"></small>
                                     </div>
 
                                     <div class="field-col col-12 col-md-6">
@@ -147,12 +157,12 @@
 
                             <div class="gemnah-checkout-total">
                                 <span>Shipping</span>
-                                <strong>EGP {{ number_format($shippingAmount ?? 0, 2) }}</strong>
+                                <strong class="js-checkout-shipping">EGP {{ number_format($shippingAmount ?? 0, 2) }}</strong>
                             </div>
 
                             <div class="gemnah-checkout-total">
                                 <span>Total</span>
-                                <strong>EGP {{ number_format($checkoutTotal ?? $cartSubtotal, 2) }}</strong>
+                                <strong class="js-checkout-total">EGP {{ number_format($checkoutTotal ?? $cartSubtotal, 2) }}</strong>
                             </div>
                         </aside>
                     </div>
@@ -161,3 +171,82 @@
         </section>
     </main>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var citySelect = document.getElementById('city');
+
+            if (! citySelect) {
+                return;
+            }
+
+            var shippingOutput = document.querySelector('.js-checkout-shipping');
+            var totalOutput = document.querySelector('.js-checkout-total');
+            var cityError = document.querySelector('.js-checkout-city-error');
+
+            function setCityError(message) {
+                if (! cityError) {
+                    return;
+                }
+
+                cityError.textContent = message || '';
+                cityError.classList.toggle('d-none', ! message);
+            }
+
+            citySelect.addEventListener('change', function () {
+                var city = citySelect.value;
+                var url = citySelect.dataset.shippingUrl;
+
+                setCityError('');
+
+                if (! city || ! url) {
+                    if (shippingOutput) {
+                        shippingOutput.textContent = 'EGP 0.00';
+                    }
+
+                    if (totalOutput) {
+                        totalOutput.textContent = citySelect.dataset.cartSubtotalText || 'EGP 0.00';
+                    }
+
+                    return;
+                }
+
+                citySelect.disabled = true;
+
+                fetch(url + '?city=' + encodeURIComponent(city), {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(function (response) {
+                        return response.json().then(function (data) {
+                            if (! response.ok) {
+                                throw data;
+                            }
+
+                            return data;
+                        });
+                    })
+                    .then(function (data) {
+                        if (shippingOutput) {
+                            shippingOutput.textContent = data.shipping_text;
+                        }
+
+                        if (totalOutput) {
+                            totalOutput.textContent = data.total_text;
+                        }
+                    })
+                    .catch(function (data) {
+                        setCityError((data && data.message) || 'Could not load shipping fee for this city.');
+                    })
+                    .finally(function () {
+                        citySelect.disabled = false;
+                    });
+            });
+        });
+    </script>
+@endpush

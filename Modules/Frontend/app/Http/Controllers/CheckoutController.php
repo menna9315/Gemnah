@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Modules\Backend\Models\ShippingFee;
 use Modules\Frontend\Models\Order;
@@ -21,11 +22,43 @@ class CheckoutController
     {
         $cart = $this->cartManager->cartWithItems();
         $customer = Auth::guard('customer')->user();
-        $shippingAmount = $this->shippingAmount();
+        $shippingFees = ShippingFee::query()
+            ->orderBy('city')
+            ->get(['city', 'amount']);
+        $selectedCity = $this->selectedCity($shippingFees);
+        $shippingAmount = $selectedCity ? $this->shippingAmount($selectedCity) : 0;
         $cartSubtotal = (float) ($cart?->subtotal ?? 0);
         $checkoutTotal = $cartSubtotal + $shippingAmount;
 
-        return view('frontend::pages.checkout', compact('cart', 'customer', 'shippingAmount', 'checkoutTotal'));
+        return view('frontend::pages.checkout', compact(
+            'cart',
+            'customer',
+            'shippingFees',
+            'selectedCity',
+            'shippingAmount',
+            'checkoutTotal'
+        ));
+    }
+
+    public function shippingFee(Request $request)
+    {
+        $cart = $this->cartManager->cartWithItems();
+        $cartSubtotal = (float) ($cart?->subtotal ?? 0);
+
+        $data = $request->validate([
+            'city' => ['required', 'string', Rule::exists('shipping_fees', 'city')],
+        ]);
+
+        $shippingAmount = $this->shippingAmount($data['city']);
+        $checkoutTotal = $cartSubtotal + $shippingAmount;
+
+        return response()->json([
+            'city' => $data['city'],
+            'shipping_amount' => $shippingAmount,
+            'checkout_total' => $checkoutTotal,
+            'shipping_text' => 'EGP '.number_format($shippingAmount, 2),
+            'total_text' => 'EGP '.number_format($checkoutTotal, 2),
+        ]);
     }
 
     public function store(Request $request)
@@ -38,15 +71,11 @@ class CheckoutController
             ]);
         }
 
-        $request->merge([
-            'city' => 'Alexandria',
-        ]);
-
         $data = $request->validate([
             'customer_name' => ['required', 'string', 'max:255'],
             'customer_email' => ['required', 'email', 'max:255'],
             'customer_phone' => ['required', 'string', 'max:30'],
-            'city' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255', Rule::exists('shipping_fees', 'city')],
             'area' => ['nullable', 'string', 'max:255'],
             'address_line' => ['required', 'string'],
             'notes' => ['nullable', 'string'],
@@ -70,7 +99,7 @@ class CheckoutController
             }
 
             $subtotal = (float) $cart->subtotal;
-            $shippingAmount = $this->shippingAmount();
+            $shippingAmount = $this->shippingAmount($data['city']);
             $totalAmount = $subtotal + $shippingAmount;
 
             $order = Order::create([
@@ -148,9 +177,24 @@ class CheckoutController
         return $orderNumber;
     }
 
-    private function shippingAmount(): float
+    private function selectedCity($shippingFees): ?string
     {
-        return (float) (ShippingFee::first()?->amount ?? 0);
+        $oldCity = old('city');
+
+        if ($oldCity && $shippingFees->contains('city', $oldCity)) {
+            return $oldCity;
+        }
+
+        return null;
+    }
+
+    private function shippingAmount(?string $city): float
+    {
+        if (! $city) {
+            return 0;
+        }
+
+        return (float) (ShippingFee::where('city', $city)->value('amount') ?? 0);
     }
 
     private function canViewOrder(Order $order): bool

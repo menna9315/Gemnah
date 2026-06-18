@@ -15,7 +15,9 @@ Route::get('/account', [CustomerAuthController::class, 'account'])->name('fronte
 Route::get('/account/orders', [CustomerAuthController::class, 'orders'])->name('frontend.orders');
 Route::post('/account/logout', [CustomerAuthController::class, 'logout'])->name('frontend.logout');
 Route::post('/cart/items/{item}', [CartController::class, 'store'])->name('frontend.cart.items.store');
+Route::patch('/cart/items/{cartItem}', [CartController::class, 'update'])->name('frontend.cart.items.update');
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('frontend.checkout');
+Route::get('/checkout/shipping-fee', [CheckoutController::class, 'shippingFee'])->name('frontend.checkout.shipping-fee');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('frontend.checkout.store');
 Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('frontend.checkout.success');
 Route::get('/products', [HomeController::class, 'products'])->name('frontend.products.index');

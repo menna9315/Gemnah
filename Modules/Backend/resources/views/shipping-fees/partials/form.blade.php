@@ -1,8 +1,14 @@
 <div class="card-body">
     <div class="form-group">
         <label for="city">City</label>
-        <input type="text" name="city" id="city" class="form-control @error('city') is-invalid @enderror"
-            value="Alexandria" readonly>
+        <select name="city" id="city" class="form-control @error('city') is-invalid @enderror" required>
+            <option value="">Select city</option>
+            @foreach ($cities as $city)
+                <option value="{{ $city }}" @selected(old('city', $shippingFee->city) === $city)>
+                    {{ $city }}
+                </option>
+            @endforeach
+        </select>
 
         @error('city')
             <span class="invalid-feedback">{{ $message }}</span>

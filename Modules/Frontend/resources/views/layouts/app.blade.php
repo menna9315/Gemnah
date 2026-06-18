@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/blog.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/other.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/gemnah.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/gemnah.css') }}?v={{ filemtime(public_path('frontend/assets/css/gemnah.css')) }}">
     @stack('styles')
 </head>
 <body>

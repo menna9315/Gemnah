@@ -122,10 +122,12 @@
                         </div>
                     @endif
                 @else
-                    <div class="gemnah-products-empty text-center">
-                        <span><i class="ri-shopping-bag-3-line"></i></span>
-                        <h2>No products found</h2>
-                        <p>Products for this category will appear here once they are added from the dashboard.</p>
+                    <div class="gemnah-products-coming-soon gemnah-products-coming-soon-center">
+                        <span><i class="ri-time-line"></i></span>
+                        <div>
+                            <h2>Coming soon</h2>
+                            <p>New pieces for this category are being prepared.</p>
+                        </div>
                     </div>
                 @endif
             </div>

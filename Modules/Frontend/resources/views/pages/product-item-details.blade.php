@@ -15,6 +15,9 @@
         $quantityMax = (int) $item->stock_quantity > 0 ? min((int) $item->stock_quantity, 99) : 99;
         $selectedQuantity = min(max((int) old('quantity', 1), 1), $quantityMax);
         $colorVariantItems = $colorVariantItems ?? collect();
+        if ($colorVariantItems->isEmpty() && $item->color) {
+            $colorVariantItems = collect([$item]);
+        }
     @endphp
 
     <div class="breadcrumb-area ptb-30 bg-img text-center gemnah-about-template-banner"
@@ -115,13 +118,10 @@
                             {{ $isUnavailable ? 'Out of stock' : 'In stock' }}
                         </div>
 
-                        @if ($colorVariantItems->count() > 1)
+                        @if ($colorVariantItems->isNotEmpty())
                             <div class="gemnah-product-color-variants">
                                 <div class="gemnah-product-option-title">
                                     Color
-                                    @if ($item->color?->name)
-                                        <span>{{ $item->color->name }}</span>
-                                    @endif
                                 </div>
 
                                 <div class="gemnah-product-color-list">
@@ -142,15 +142,15 @@
                                             <span class="gemnah-product-color-choice is-active" aria-current="true"
                                                 title="{{ $variantColor->name }}">
                                                 <span class="gemnah-product-color-swatch"
-                                                    @if ($variantColor->code) style="background-color: {{ $variantColor->code }}" @endif></span>
-                                                <span>{{ $variantColor->name }}</span>
+                                                    @if ($variantColor->code) style="display: inline-block; width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: {{ $variantColor->code }} !important; border: 2px solid #111314; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .55);" @endif></span>
+                                                <span class="gemnah-product-color-name">{{ $variantColor->name }}</span>
                                             </span>
                                         @else
                                             <a href="{{ $variantUrl }}" class="gemnah-product-color-choice"
                                                 title="{{ $variantColor->name }}">
                                                 <span class="gemnah-product-color-swatch"
-                                                    @if ($variantColor->code) style="background-color: {{ $variantColor->code }}" @endif></span>
-                                                <span>{{ $variantColor->name }}</span>
+                                                    @if ($variantColor->code) style="display: inline-block; width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: {{ $variantColor->code }} !important; border: 2px solid #111314; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .55);" @endif></span>
+                                                <span class="gemnah-product-color-name">{{ $variantColor->name }}</span>
                                             </a>
                                         @endif
                                     @endforeach
@@ -159,18 +159,6 @@
                         @endif
 
                         <dl class="gemnah-product-specs">
-                            @if ($item->color)
-                                <div>
-                                    <dt>Color</dt>
-                                    <dd>
-                                        @if ($item->color->code)
-                                            <span class="gemnah-color-dot" style="background-color: {{ $item->color->code }}"></span>
-                                        @endif
-                                        {{ $item->color->name }}
-                                    </dd>
-                                </div>
-                            @endif
-
                             @if ($item->size)
                                 <div>
                                     <dt>Size</dt>
@@ -232,12 +220,6 @@
                                 <span>Add to cart</span>
                             </button>
 
-                            <button type="submit" name="redirect_to" value="checkout"
-                                class="btn-style secondary-btn gemnah-product-action-btn gemnah-buy-now @if ($isUnavailable) disabled pe-none @endif"
-                                @if ($isUnavailable) disabled aria-disabled="true" @endif>
-                                <span class="product-bag-icon"><i class="ri-flashlight-line"></i></span>
-                                <span>Buy it now</span>
-                            </button>
                         </form>
                     </article>
                 </div>

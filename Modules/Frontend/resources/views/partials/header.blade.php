@@ -52,21 +52,26 @@
                                                     <span class="menu-title text-uppercase heading-weight">Products</span>
                                                     <span class="icon-16 fw-normal"><i class="ri-arrow-down-s-line d-block lh-1"></i></span>
                                                 </a>
-                                                @if ($menuCategories->isNotEmpty())
-                                                    <div class="menu-dropdown menu-sub collapse position-absolute top-auto body-bg z-2 DropDownSlide box-shadow gemnah-menu-dropdown">
-                                                        <ul class="menudrop-ul ptb-25 gemnah-menu-dropdown-list">
-                                                            @foreach ($menuCategories as $menuCategory)
-                                                                <li class="menudrop-li">
-                                                                    <div class="ptb-5 plr-30">
-                                                                        <a href="{{ route('frontend.products.category', $menuCategory->slug) }}" class="d-inline-block body-primary-color">
-                                                                            {{ $menuCategory->title }}
-                                                                        </a>
-                                                                    </div>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                @endif
+                                                <div class="menu-dropdown menu-sub collapse position-absolute top-auto body-bg z-2 DropDownSlide box-shadow gemnah-menu-dropdown">
+                                                    <ul class="menudrop-ul ptb-25 gemnah-menu-dropdown-list">
+                                                        <li class="menudrop-li">
+                                                            <div class="ptb-5 plr-30">
+                                                                <a href="{{ route('frontend.products.index') }}" class="d-inline-block body-primary-color">
+                                                                    All products
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                        @foreach ($menuCategories as $menuCategory)
+                                                            <li class="menudrop-li">
+                                                                <div class="ptb-5 plr-30">
+                                                                    <a href="{{ route('frontend.products.category', $menuCategory->slug) }}" class="d-inline-block body-primary-color">
+                                                                        {{ $menuCategory->title }}
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
                                             </li>
                                              <li class="menu-li">
                                                 <a href="{{ route('frontend.contact-us') }}" class="menu-link d-flex align-items-center ptb-10 plr-15">

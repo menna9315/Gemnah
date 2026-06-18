@@ -1,3 +1,7 @@
+@php
+    $footerMenuCategories = $frontendMenuCategories ?? collect();
+@endphp
+
 <!-- footer start -->
         <footer id="footer">
             <!-- footer-insta start -->
@@ -266,20 +270,19 @@
                                         <div class="ft-link">
                                             <ul class="ftlink-ul ul-ft pst-20">
                                                 <li class="ftlink-li">
-                                                    <a href="cookie.html" class="d-inline-block body-primary-color">Sets</a>
+                                                    <a href="{{ route('frontend.products.index') }}" class="d-inline-block body-primary-color">All products</a>
                                                 </li>
-                                                <li class="ftlink-li">
-                                                    <a href="payment-policy.html" class="d-inline-block body-primary-color">Blouses</a>
-                                                </li>
-                                                <li class="ftlink-li">
-                                                    <a href="privacy-policy.html" class="d-inline-block body-primary-color">Skirts</a>
-                                                </li>
-                                                <li class="ftlink-li">
-                                                    <a href="return-policy.html" class="d-inline-block body-primary-color">Pants</a>
-                                                </li>
-                                                <li class="ftlink-li">
-                                                    <a href="shipping-policy.html" class="d-inline-block body-primary-color">Dresses</a>
-                                                </li>
+                                                @forelse ($footerMenuCategories as $menuCategory)
+                                                    <li class="ftlink-li">
+                                                        <a href="{{ route('frontend.products.category', $menuCategory->slug) }}" class="d-inline-block body-primary-color">
+                                                            {{ $menuCategory->title }}
+                                                        </a>
+                                                    </li>
+                                                @empty
+                                                    <li class="ftlink-li">
+                                                        <span class="d-inline-block body-primary-color">No categories yet</span>
+                                                    </li>
+                                                @endforelse
                                                 {{-- <li class="ftlink-li">
                                                     <a href="terms-condition.html" class="d-inline-block body-primary-color">Terms & condition</a>
                                                 </li> --}}

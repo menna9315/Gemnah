@@ -41,6 +41,10 @@ body {
     width: 160px;
     max-width: 100%;
     height: auto;
+    filter:
+        contrast(1.14)
+        drop-shadow(.2px 0 0 rgba(9, 10, 11, .55))
+        drop-shadow(-.2px 0 0 rgba(9, 10, 11, .55));
 }
 
 .gemnah-footer-logo {
@@ -87,6 +91,17 @@ body {
 .header-icon a,
 .header-icon button {
     color: var(--gemnah-ink);
+}
+
+.main-header .header-icon-user .header-block-icon,
+.main-header .header-icon-cart .header-block-icon {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.main-header .header-icon-user .header-block-icon i,
+.main-header .header-icon-cart .header-block-icon i {
+    font-weight: 400;
 }
 
 .header-mobile-menu .header-icon-toggler,
@@ -1609,6 +1624,52 @@ body {
     display: flex;
 }
 
+.gemnah-products-coming-soon {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: clamp(20px, 3vw, 30px);
+    color: #5f6361;
+    background: linear-gradient(135deg, rgba(232, 233, 231, .72), rgba(255, 255, 255, .9));
+    border: 1px dashed rgba(100, 112, 107, .42);
+    border-radius: 8px;
+}
+
+.gemnah-products-coming-soon-center {
+    justify-content: center;
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.gemnah-products-coming-soon > span {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    color: #fff;
+    font-size: 22px;
+    background: var(--gemnah-pewter-dark);
+    border-radius: 50%;
+}
+
+.gemnah-products-coming-soon h2,
+.gemnah-products-coming-soon h3 {
+    margin: 0;
+    color: var(--gemnah-ink);
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.2;
+}
+
+.gemnah-products-coming-soon p {
+    margin: 6px 0 0;
+    color: #5f6361;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
 .gemnah-product-card {
     min-width: 0;
     width: 100%;
@@ -1675,11 +1736,61 @@ body {
 }
 
 .gemnah-color-dot {
+    display: inline-block;
     width: 12px;
     height: 12px;
     flex: 0 0 auto;
-    border: 1px solid rgba(17, 19, 20, .18);
+    border: 1px solid rgba(17, 19, 20, .36);
     border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45);
+}
+
+.gemnah-cart-quantity {
+    display: inline-grid;
+    grid-template-columns: 30px 38px 30px;
+    align-items: center;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--gemnah-line);
+    border-radius: 6px;
+}
+
+.gemnah-cart-quantity form {
+    margin: 0;
+}
+
+.gemnah-cart-quantity-btn,
+.gemnah-cart-quantity-value {
+    width: 100%;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gemnah-ink);
+    background: #fff;
+}
+
+.gemnah-cart-quantity-btn {
+    font-size: 14px;
+    border: 0;
+}
+
+.gemnah-cart-quantity-btn:hover:not(:disabled),
+.gemnah-cart-quantity-btn:focus:not(:disabled) {
+    color: #fff;
+    background: var(--gemnah-pewter-dark);
+}
+
+.gemnah-cart-quantity-btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.gemnah-cart-quantity-value {
+    font-size: 13px;
+    font-weight: 800;
+    border-right: 1px solid var(--gemnah-line);
+    border-left: 1px solid var(--gemnah-line);
 }
 
 .gemnah-products-grid .product-description {
@@ -2022,6 +2133,7 @@ body {
 .gemnah-product-color-choice {
     display: inline-flex;
     align-items: center;
+    justify-content: flex-start;
     gap: 8px;
     max-width: 100%;
     min-height: 42px;
@@ -2030,6 +2142,7 @@ body {
     font-size: 14px;
     font-weight: 700;
     line-height: 1.25;
+    text-align: left;
     background: #fff;
     border: 1px solid var(--gemnah-line);
     border-radius: 6px;
@@ -2048,18 +2161,22 @@ body {
     cursor: default;
 }
 
-.gemnah-product-color-choice > span:last-child {
+.gemnah-product-color-name {
     min-width: 0;
     overflow-wrap: anywhere;
 }
 
 .gemnah-product-color-swatch {
-    width: 22px;
-    height: 22px;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
     flex: 0 0 auto;
     background: linear-gradient(135deg, #fff, var(--gemnah-silver));
-    border: 1px solid rgba(17, 19, 20, .18);
+    border: 2px solid #fff;
     border-radius: 50%;
+    box-shadow:
+        0 0 0 1px rgba(17, 19, 20, .55),
+        inset 0 0 0 1px rgba(17, 19, 20, .12);
 }
 
 .gemnah-product-actions {
@@ -2145,6 +2262,7 @@ body {
 
 .gemnah-product-action-btn {
     width: 100%;
+    grid-column: 1 / -1;
     gap: 8px;
     padding-right: 16px;
     padding-left: 16px;
@@ -2282,6 +2400,8 @@ body {
         align-items: center;
         justify-content: center;
         min-width: 0;
+        padding-right: 14px;
+        padding-left: 14px;
     }
 
     .main-header .header-logo .theme-logo {
@@ -2290,6 +2410,7 @@ body {
 
     .main-header .header-icon {
         min-width: 0;
+        padding-left: 12px;
     }
 
     .main-header .header-icon-block {
@@ -2312,6 +2433,30 @@ body {
         justify-content: center;
         width: 34px;
         height: 34px;
+    }
+
+    .main-header .header-mobile-menu .header-icon-toggler {
+        min-width: 38px;
+        min-height: 38px;
+    }
+
+    .main-header .header-mobile-menu .header-block-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 21px;
+        font-weight: 400;
+    }
+
+    .main-header .header-icon-user .header-block-icon,
+    .main-header .header-icon-cart .header-block-icon-wrap {
+        width: 38px;
+        height: 38px;
+    }
+
+    .main-header .header-icon-user .header-block-icon,
+    .main-header .header-icon-cart .header-block-icon {
+        font-size: 21px;
+        font-weight: 400;
     }
 
     .gemnah-header-account-text {
@@ -2554,7 +2699,11 @@ body {
     }
 
     .gemnah-frontend-logo {
-        width: 120px;
+        width: clamp(118px, 34vw, 138px);
+        filter:
+            contrast(1.2)
+            drop-shadow(.28px 0 0 rgba(9, 10, 11, .62))
+            drop-shadow(-.28px 0 0 rgba(9, 10, 11, .62));
     }
 
     .main-header .header-top-first {
@@ -2686,6 +2835,17 @@ body {
         padding: 20px 14px;
     }
 
+    .gemnah-products-coming-soon {
+        align-items: flex-start;
+        padding: 20px 16px;
+    }
+
+    .gemnah-products-coming-soon > span {
+        width: 42px;
+        height: 42px;
+        font-size: 20px;
+    }
+
     .gemnah-products-pagination .page-link {
         min-width: 34px;
         height: 34px;
@@ -2720,5 +2880,15 @@ body {
 
     .gemnah-product-gallery-thumbs {
         gap: 8px;
+    }
+}
+
+@media (max-width: 390px) {
+    .main-header .header-icon-element {
+        gap: 0;
+    }
+
+    .gemnah-frontend-logo {
+        width: clamp(108px, 32vw, 122px);
     }
 }
