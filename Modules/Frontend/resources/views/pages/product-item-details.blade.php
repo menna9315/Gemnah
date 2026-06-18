@@ -188,7 +188,7 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('frontend.cart.items.store', $item) }}" method="post" class="gemnah-product-actions">
+                        <form action="{{ route('frontend.cart.items.store', $item, absolute: false) }}" method="post" class="gemnah-product-actions">
                             @csrf
                             <div class="gemnah-product-quantity">
                                 <label for="product-item-quantity-{{ $item->id }}">Quantity</label>
