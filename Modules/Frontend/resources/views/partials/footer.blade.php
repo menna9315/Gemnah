@@ -196,7 +196,7 @@
                                     </a>
                                 </div>
                                 <div class="footer-company-detail mst-23">
-                                    <p>The point of using lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed the cites of the an in classical literature, discovered!</p>
+                                    <p>Timeless modest wear, thoughtfully designed in Egypt.©2026 Gemnah.All rights reserved.</p>
                                 </div>
 
                                 @if ($footerContact?->instgram_link || $footerContact?->facebook_link || $footerContact?->tiktok_link)

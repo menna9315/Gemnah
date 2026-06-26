@@ -26,19 +26,7 @@
                         {{-- <h2>{{ $contact?->name ?: 'Contact GEMNAH' }}</h2> --}}
 
                         <div class="gemnah-contact-list">
-                            @if ($contact?->phone1)
-                                <a href="tel:{{ preg_replace('/\s+/', '', $contact->phone1) }}" class="gemnah-contact-item">
-                                    <span><i class="ri-phone-line"></i></span>
-                                    <strong>{{ $contact->phone1 }}</strong>
-                                </a>
-                            @endif
-
-                            @if ($contact?->phone2)
-                                <a href="tel:{{ preg_replace('/\s+/', '', $contact->phone2) }}" class="gemnah-contact-item">
-                                    <span><i class="ri-phone-line"></i></span>
-                                    <strong>{{ $contact->phone2 }}</strong>
-                                </a>
-                            @endif
+                       
 
                             @if ($contact?->email)
                                 <a href="mailto:{{ $contact->email }}" class="gemnah-contact-item">

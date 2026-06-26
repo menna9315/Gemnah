@@ -182,7 +182,7 @@
                                 @endif
 
                                 @if ($item->description2)
-                                    <h2>More details</h2>
+                                    <h2>Delivery Policy</h2>
                                     <div>{!! nl2br(e($item->description2)) !!}</div>
                                 @endif
                             </div>

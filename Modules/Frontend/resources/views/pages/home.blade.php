@@ -24,7 +24,7 @@
                                         <div class="container">
                                             <div class="gemnah-home-hero-copy">
                                                 @if ($banner->description)
-                                                    <div class="gemnah-home-kicker">GEMNAH Collection</div>
+                                                    {{-- <div class="gemnah-home-kicker">GEMNAH Collection</div> --}}
                                                 @endif
 
                                                 @if ($banner->title)
