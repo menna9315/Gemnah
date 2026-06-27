@@ -36,11 +36,7 @@
 
                                     <h2>{{ $category->title }}</h2>
 
-                                    @if ($category->description)
-                                        <div class="gemnah-products-category-description">
-                                            {!! nl2br(e($category->description)) !!}
-                                        </div>
-                                    @endif
+                                  
                                 </div>
 
                                 <div class="gemnah-products-grid row row-mtm30">
