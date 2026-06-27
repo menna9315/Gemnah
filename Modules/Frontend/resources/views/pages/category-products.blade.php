@@ -21,11 +21,7 @@
 
                     <h1>{{ $category->title ?: 'Products' }}</h1>
 
-                    @if ($category->description)
-                        <div class="gemnah-products-description">
-                            {!! nl2br(e($category->description)) !!}
-                        </div>
-                    @endif
+                 
                 </div>
 
                 @if ($productItems->count())
