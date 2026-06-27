@@ -6,7 +6,7 @@
     $primaryImageUrl = $primaryImage ? asset($primaryImage) : asset('frontend/assets/image/product/p-1.jpg');
     $secondaryImageUrl = $secondaryImage ? asset($secondaryImage) : $primaryImageUrl;
     $itemUrl = $category ? route('frontend.products.item', [$category->slug, $item->slug]) : '#';
-    $salePrice = (float) ($item->price_after_discount ?: $item->selling_price);
+    $salePrice = (float) $item->selling_price;
     $oldPrice = (float) $item->original_price;
     $description = trim(strip_tags($item->description ?? ''));
 @endphp
@@ -42,17 +42,13 @@
 
                 <div class="product-price">
                     <div class="price-box heading-weight">
-                        @if ($salePrice > 0)
-                            <span class="new-price primary-color">EGP {{ number_format($salePrice, 2) }}</span>
+                        <span class="new-price primary-color">EGP {{ number_format($salePrice, 2) }}</span>
 
-                            @if ($oldPrice > $salePrice)
-                                <span class="old-price">
-                                    <span class="mer-3">~</span>
-                                    <span class="text-decoration-line-through">EGP {{ number_format($oldPrice, 2) }}</span>
-                                </span>
-                            @endif
-                        @else
-                            <span class="new-price primary-color">Contact for price</span>
+                        @if ($oldPrice > $salePrice)
+                            <span class="old-price">
+                                <span class="mer-3">~</span>
+                                <span class="text-decoration-line-through">EGP {{ number_format($oldPrice, 2) }}</span>
+                            </span>
                         @endif
                     </div>
                 </div>
